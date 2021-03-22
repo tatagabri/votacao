@@ -1,0 +1,55 @@
+﻿@model Votacao.Controllers.MemberController.MemberViewModel
+@{
+    ViewData["Title"] = "Área de Membros";
+
+    string GetImageOrDefault()
+    {
+        return Model.Candidate.ImageUrl ?? "https://i.imgur.com/0PJr8nW.png";
+    }
+
+    int? GetCandidateId()
+    {
+        return Model.Candidate?.Code;
+    }
+}
+
+<script>
+
+    function voteWhite() {
+        var result = confirm('Deseja mesmo votar em branco?');
+        if (result) {
+            $('#code').prop("min", -1);
+            $('#code').val(-1);
+        }
+    }
+
+</script>
+
+<form method="get" action="/member">
+    <div class="d-flex flex-column mx-auto" style="width: 500px;">
+        <div class="d-flex flex-column">
+            <h1 class="display-6 text-center">@Model.Election.Name</h1>
+        </div>
+        <div class="d-flex flex-column form-group mx-5 px-5">
+            <label for="code">Código</label>
+            <input id="code" name="code" class="form-control" type="number" value="@GetCandidateId()" required min="0" max="99999999" step="1" />
+        </div>
+        @if (Model.Candidate != null && Model.Candidate.Id != 0)
+        {
+            <div class="d-flex flex-row my-5 border rounded px-2 py-3">
+                <input type="number" id="candidateid" name="candidateid" value="@Model.Candidate.Id" style="display: none !important;"/>
+                <div class="col-4">
+                    <img src="@GetImageOrDefault()" style="width: 150px; height: 150px;" class="border rounded-circle">
+                </div>
+                <div class="d-flex flex-column col-8">
+                    <h3 class="mt-auto">@Model.Candidate.FullName</h3>
+                    <h5 class="mb-auto">@Model.Candidate.Party</h5>
+                </div>
+            </div>
+        }
+        <div class="mx-auto">
+            <button type="submit" class="btn btn-light border rounded mr-2" onclick="voteWhite()">Branco</button>
+            <button type="submit" class="btn btn-success ml-2">Confirmar</button>
+        </div>
+    </div>       
+</form>

@@ -1,0 +1,62 @@
+﻿@model Votacao.Repository.Models.System.Candidate[]
+@{
+    ViewData["Title"] = "Área de Administradores";
+}
+
+<script>
+ 
+    function confirmDelete(id, name) {
+        var result = confirm('Você tem certeza que deseja deletar o candidato ' + name + '?');
+        if (result) {
+            $.ajax({
+                url: '/candidate/delete/' + id,
+                type: 'DELETE',
+                success: function (result) {
+                    window.location.href = '/candidate/deletesuccess'
+                },
+                error: function (err) {
+                    if (err.status === 400) {
+                        window.location.href = `/candidate/deletefail?title=${err.responseJSON.title}&message=${err.responseJSON.message}&redirectto=${err.responseJSON.redirectTo}&success=${err.responseJSON.success}`;
+                    }                        
+                }
+            });
+        }
+    }
+
+</script>
+
+<div class="d-flex flex-row w-100 mb-4">
+    <form method="post" action="/candidate/list" class="w-100">
+        <div class="d-flex flex-row form-group">
+            <a class="btn btn-light border rounded mr-auto" href="/admin">Voltar</a>
+            <input type="text" id="search" name="search" class="form-control mr-3" placeholder="Pesquisar" style="width: 300px;" />
+            <button type="submit" class="btn btn-primary">Pesquisar</button>
+        </div>
+    </form>
+</div>
+<table class="table m-auto">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th class="text-center" scope="col">Código</th>
+            <th scope="col">Nome Completo</th>
+            <th scope="col">Partido</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var candidate in Model)
+        {
+            <tr>
+                <th  scope="row">@candidate.Id</th>
+                <td class="text-center">@candidate.Code</td>
+                <td>@candidate.FullName</td>
+                <td>@candidate.Party</td>
+                <td class="text-center">
+                    <a class="btn btn-light border rounded" href="/candidate/update/@candidate.Id">Editar</a>
+                    <a class="btn btn-light border rounded" onclick="confirmDelete(@candidate.Id, '@candidate.FullName')">Excluir</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

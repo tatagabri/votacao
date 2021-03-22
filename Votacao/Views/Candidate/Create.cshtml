@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Área de Administradores";
+}
+
+
+<form method="post" action="/candidate/create">
+    <div class="identity-form d-flex flex-column mt-5 mx-auto">
+        <div class="d-flex mx-auto mb-5 text-center">
+            <h1 class="w-100 text-center display-6" style="font-size: xx-large;">Criar candidato</h1>
+        </div>
+        <div class="form-group d-flex flex-row mx-auto mb-3 w-100">
+            <div class="d-flex flex-column col-5 pr-2">
+                <label for="firstname">Nome <span class="text-danger">*</span></label>
+                <input id="firstname" name="FirstName" class="form-control" type="text" maxlength="30" required />
+            </div>
+            <div class="d-flex flex-column col-7 pl-2">
+                <label for="lastname">Sobrenome <span class="text-danger">*</span></label>
+                <input id="lastname" name="LastName" class="form-control" type="text" maxlength="80" required />
+            </div>
+        </div>
+        <div class="form-group d-flex flex-row mx-auto mb-3 w-100">
+            <div class="d-flex flex-column col-4 pr-2">
+                <label for="code">Código <span class="text-danger">*</span></label>
+                <input id="code" name="Code" class="form-control" type="number" required min="0" max="99999999" step="1" />
+            </div>
+            <div class="d-flex flex-column col-8 pl-2">
+                <label for="party">Partido</label>
+                <input id="party" name="Party" class="form-control" type="text" maxlength="255" />
+            </div>
+        </div>
+        <div class="form-group d-flex flex-row mx-auto w-100">
+            <div class="d-flex flex-column col-12 pr-2">
+                <label for="imageurl">Url da imagem de perfil</label>
+                <input id="imageurl" name="ImageUrl" class="form-control" type="url" maxlength="3000" placeholder="http://exemple.com/profile.png" />
+            </div>
+        </div>
+        <div class="d-flex flex-row w-100 mt-5">
+            <a type="button" class="btn btn-light border rounded ml-auto mr-2 col-3" href="/admin">
+                Cancelar
+            </a>
+            <button type="submit" class="btn btn-primary ml-2 mr-auto col-3">
+                Criar
+            </button>
+        </div>
+    </div>
+</form>

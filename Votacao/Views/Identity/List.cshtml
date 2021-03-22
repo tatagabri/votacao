@@ -1,0 +1,40 @@
+﻿@model Votacao.Repository.Models.Security.Identity[]
+@{
+    ViewData["Title"] = "Área de Administradores";
+}
+
+<div class="d-flex flex-row w-100 mb-4">
+    <form method="post" action="/identity/list" class="w-100">
+        <div class="d-flex flex-row form-group">
+            <a class="btn btn-light border rounded mr-auto" href="/admin">Voltar</a>
+            <input type="text" id="search" name="search" class="form-control mr-3" placeholder="Pesquisar" style="width: 300px;" />
+            <button type="submit" class="btn btn-primary">Pesquisar</button>
+        </div>
+    </form>
+</div>
+<table class="table m-auto">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome Completo</th>
+            <th scope="col">E-mail</th>
+            <th class="text-center" scope="col">CPF</th>
+            <th class="text-center" scope="col">Ativo</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var identity in Model)
+        {
+            var enabled = identity.Enabled ? "Sim" : "Não";
+            <tr>
+                <th scope="row">@identity.Id</th>
+                <td>@identity.FullName</td>
+                <td>@identity.Email</td>
+                <td class="text-center">@identity.CPF</td>
+                <td class="text-center">@enabled</td>
+                <td class="text-center"><a class="btn btn-light border rounded" href="/identity/update/@identity.Id">Editar</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

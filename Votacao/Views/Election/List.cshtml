@@ -1,0 +1,60 @@
+﻿@model Votacao.Repository.Models.System.Election[]
+@{
+    ViewData["Title"] = "Área de Administradores";
+
+    string GetStatus(Votacao.Repository.Models.System.ElectionStatus status)
+    {
+        switch (status)
+        {
+            case Votacao.Repository.Models.System.ElectionStatus.Scheduled:
+                return "Agendada";
+            case Votacao.Repository.Models.System.ElectionStatus.Running:
+                return "Em execução";
+            case Votacao.Repository.Models.System.ElectionStatus.Cancelled:
+                return "Cancelada";
+            case Votacao.Repository.Models.System.ElectionStatus.Finished:
+                return "Finalizada";
+        }
+        return null;
+    }
+
+    string GetDate(DateTime? dateTime)
+    {
+        return dateTime.HasValue ? dateTime.ToString() : "-";
+    }
+}
+
+<div class="d-flex flex-row w-100 mb-4">
+    <form method="post" action="/election/list" class="w-100">
+        <div class="d-flex flex-row form-group">
+            <a class="btn btn-light border rounded mr-auto" href="/admin">Voltar</a>
+            <input type="text" id="search" name="search" class="form-control mr-3" placeholder="Pesquisar" style="width: 300px;" />
+            <button type="submit" class="btn btn-primary">Pesquisar</button>
+        </div>
+    </form>
+</div>
+<table class="table m-auto">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome</th>
+            <th class="text-center" scope="col">Iniciada em</th>
+            <th class="text-center" scope="col">Finalizada em</th>
+            <th class="text-center" scope="col">Status</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th scope="row">@item.Id</th>
+                <td>@item.Name</td>
+                <td class="text-center">@GetDate(item.StartDate)</td>
+                <td class="text-center">@GetDate(item.EndDate)</td>
+                <td class="text-center">@GetStatus(item.Status)</td>
+                <td class="text-center"><a class="btn btn-light border rounded" href="/election/update/@item.Id">Ver</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

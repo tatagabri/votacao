@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Login incorreto";
+}
+
+<div class="d-flex flex-column w-100 h-100 mt-5">
+    <h1 class="w-100 text-center display-4 text-danger my-auto" style="font-size: xx-large;">
+        @TempData["ErrorMessage"]
+        <br />
+        Redirecionando para o login.
+    </h1>
+</div>
+
+<script>
+    setTimeout(() => {
+        window.location.href = "/";
+    }, 3000)
+</script>

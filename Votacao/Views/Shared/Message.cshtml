@@ -1,0 +1,28 @@
+﻿@model Votacao.Extensions.MessageViewModel
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="m-auto text-center">
+    @if (Model.Success)
+    {
+        <h1 class="display-4">@Model.Title</h1>
+        <h1 class="display-4">@Model.Message</h1>
+    }
+    else
+    {
+        <h1 class="display-4 text-danger">@Model.Title</h1>
+        <h1 class="display-4 text-danger">@Model.Message</h1>
+    }
+
+    @if (!string.IsNullOrWhiteSpace(Model.RedirectTo))
+    {
+        <p>Você será redirecionado de volta em instantes.</p>
+        <script>
+            setTimeout(() => {
+                window.location.href = '@Model.RedirectTo';
+            }, 3000)
+        </script>
+    }
+
+</div>

@@ -1,0 +1,44 @@
+﻿@model Votacao.Controllers.ElectionController.Votes
+@{
+    ViewData["Title"] = "Área de Administradores";
+
+    string GetPercentage(int votes)
+    {
+        return $"{(((double)votes / Model.VoteCounts.Select(x => x.Value).Sum()) * 100).ToString("F")} %";
+    }
+}
+
+<div class="d-flex flex-column w-100">
+    <h1 class="display-6 w-100 text-center">Apuração de votos</h1>
+    <table class="table mx-auto my-5">
+        <thead>
+            <tr>
+                <th class="text-center" scope="col">Código</th>
+                <th scope="col">Nome do Candidato</th>
+                <th class="text-center" scope="col">Número de Votos</th>
+                <th class="text-center" scope="col">%</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="text-center"></td>
+                <td>Brancos e Nulos</td>
+                <td class="text-center">@Model.VoteCounts[-1]</td>
+                <td class="text-center">@GetPercentage(Model.VoteCounts[-1])</td>
+            </tr>
+            @foreach (var item in Model.Candidates)
+            {
+                @if (item.Key != -1)
+                {
+                    <tr>
+                        <td class="text-center">@item.Value.Code</td>
+                        <td>@item.Value.FullName</td>
+                        <td class="text-center">@Model.VoteCounts[item.Key]</td>
+                        <td class="text-center">@GetPercentage(Model.VoteCounts[item.Key])</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <a class="btn btn-light border rounded mx-auto" href="/admin">Voltar</a>
+</div>

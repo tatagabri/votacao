@@ -1,0 +1,80 @@
+﻿@model Votacao.Repository.Models.Security.Identity
+@{
+    ViewData["Title"] = "Área de Administradores";
+}
+
+<script>
+    $(document).ready(function () {
+        var cpf = $('#cpf').val();
+        $('#cpf').mask('999.999.999-99');
+        $('#cpf').val(cpf);
+    });
+
+    function generatePassword() {
+        $('#password').get(0).type = 'text';
+        $('#copy').prop("disabled", false);
+        var rndstr = Math.random().toString(36).slice(-8);
+        var temp = Math.random();
+        var char = temp < 0.5 ? '.' : '!';
+        temp = Math.random() * (rndstr.length + 1);
+        rndstr = rndstr.substring(0, temp) + char + rndstr.substring(temp, rndstr.length);
+        $('#password').val(rndstr);
+    }
+
+    function copyToClipboard(element) {
+        $(element).select();
+        document.execCommand("copy");
+    }
+</script>
+
+<form method="post" action="/identity/update/@Model.Id">
+    <div class="identity-form d-flex flex-column mt-5 mx-auto">
+        <div class="d-flex mx-auto mb-5 text-center">
+            <h1 class="w-100 text-center display-6" style="font-size: xx-large;">Editar eleitor</h1>
+        </div>
+        <div class="form-group d-flex flex-row mx-auto mb-3 w-100">
+            <div class="d-flex flex-column col-5 pr-2">
+                <label for="firstname">Nome <span class="text-danger">*</span></label>
+                <input id="firstname" name="FirstName" class="form-control" type="text" value="@Model.FirstName" required maxlength="30" />
+            </div>
+            <div class="d-flex flex-column col-7 pl-2">
+                <label for="lastname">Sobrenome <span class="text-danger">*</span></label>
+                <input id="lastname" name="LastName" class="form-control" type="text" value="@Model.LastName" required maxlength="80" />
+            </div>
+        </div>
+        <div class="form-group d-flex flex-row mx-auto mb-3 w-100">
+            <div class="d-flex flex-column col-6 pr-2">
+                <label for="email">E-mail <span class="text-danger">*</span></label>
+                <input id="email" name="Email" class="form-control" type="email" value="@Model.Email" required maxlength="50" />
+            </div>
+            <div class="d-flex flex-column col-6 pl-2">
+                <label for="cpf">CPF <span class="text-danger">*</span></label>
+                <input id="cpf" name="Cpf" class="form-control" type="text" value="@Model.CPF" required />
+            </div>
+        </div>
+        <div class="form-group d-flex flex-row mx-auto w-100">
+            <div class="d-flex flex-column col-6 pr-2">
+                <label for="password">Senha</label>
+                <input id="password" name="Password" class="form-control" type="password" value="aaaaaaaaa" readonly maxlength="30" />
+            </div>
+            <div class="d-flex flex-column col-3 px-2">
+                <button type="button" class="btn btn-light border rounded mt-auto" onclick="generatePassword()">Gerar</button>
+            </div>
+            <div class="d-flex flex-column col-3 pl-2">
+                <button id="copy" type="button" class="btn btn-light border rounded mt-auto" onclick="copyToClipboard('#password')" disabled>Copiar</button>
+            </div>
+        </div>
+        <div class="form-group d-flex flex-row mx-auto w-100" style="padding-left: 15px;">
+            <input type="checkbox" id="enabled" name="Enabled" class="my-auto" value="true" checked="@Model.Enabled">
+            <label for="enabled" class="my-auto ml-2">Ativo</label>
+        </div>
+        <div class="d-flex flex-row w-100 mt-5">
+            <a type="button" class="btn btn-light border rounded ml-auto mr-2 col-3" href="/identity/list">
+                Cancelar
+            </a>
+            <button type="submit" class="btn btn-primary ml-2 mr-auto col-3">
+                Editar
+            </button>
+        </div>
+    </div>
+</form>

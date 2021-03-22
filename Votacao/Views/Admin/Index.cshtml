@@ -1,0 +1,64 @@
+﻿@{
+    ViewData["Title"] = "Área de Administradores";
+}
+
+<script>
+    function changeMenu(name) {
+        var eleicoes = $('#eleicoes');
+        var candidatos = $('#candidatos');
+        var eleitores = $('#eleitores');
+
+        switch (name) {
+            case 'eleicoes':
+                if (eleicoes.css('display') === 'none') {
+                    eleicoes.css('display', 'flex');
+                    candidatos.css('display', 'none');
+                    eleitores.css('display', 'none');
+                } else {
+                    eleicoes.css('display', 'none');
+                }
+                break;
+            case 'candidatos':
+                if (candidatos.css('display') === 'none') {
+                    eleicoes.css('display', 'none');
+                    candidatos.css('display', 'flex');
+                    eleitores.css('display', 'none');
+                } else {
+                    candidatos.css('display', 'none');
+                }
+                break;
+            case 'eleitores':
+                if (eleitores.css('display') === 'none') {
+                    eleicoes.css('display', 'none');
+                    candidatos.css('display', 'none');
+                    eleitores.css('display', 'flex');
+                } else {
+                    eleitores.css('display', 'none');
+                }
+                break;
+        }
+    }
+</script>
+
+<div class="d-flex flex-column m-auto" style="width: 300px;">
+    <h1 class="w-100 text-center display-4 mb-5">Menu Administrativo</h1>
+    <button type="button" class="btn btn-light border rounded my-2" onclick="changeMenu('eleicoes')">Eleições</button>
+    <div class="flex-column w-75 mx-auto" id="eleicoes" style="display: none;">
+        @if (TempData["HasRunningElection"] is bool value && value)
+        {
+            <a class="btn btn-secondary border rounded my-2 ms-2" href="/election/active">Ver eleição ativa</a>
+        }
+        <a class="btn btn-secondary border rounded my-2 ms-2" href="/election/create">Criar eleição</a>
+        <a class="btn btn-secondary border rounded my-2 ms-2" href="/election/list">Lista de eleições</a>
+    </div>
+    <button type="button" class="btn btn-light border rounded my-2" onclick="changeMenu('candidatos')">Candidatos</button>
+    <div class="flex-column w-75 mx-auto" id="candidatos" style="display: none;">
+        <a class="btn btn-secondary border rounded my-2 ms-2" href="/candidate/create">Criar candidato</a>
+        <a class="btn btn-secondary border rounded my-2 ms-2" href="/candidate/list">Lista de candidatos</a>
+    </div>
+    <button type="button" class="btn btn-light border rounded my-2" onclick="changeMenu('eleitores')">Eleitores</button>
+    <div class="flex-column w-75 mx-auto" id="eleitores" style="display: none;">
+        <a class="btn btn-secondary border rounded my-2 ms-2" href="/identity/create">Criar eleitor</a>
+        <a class="btn btn-secondary border rounded my-2 ms-2" href="/identity/list">Lista de eleitores</a>
+    </div>
+</div>

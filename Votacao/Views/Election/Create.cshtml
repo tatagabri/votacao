@@ -1,0 +1,37 @@
+﻿@model Votacao.Repository.Models.System.Candidate[]
+@{
+    ViewData["Title"] = "Área de Administradores";
+}
+
+<form method="post" action="/election/create">
+    <div class="identity-form d-flex flex-column mt-5 mx-auto">
+        <div class="d-flex mx-auto mb-5 text-center">
+            <h1 class="w-100 text-center display-6" style="font-size: xx-large;">Criar eleição</h1>
+        </div>
+        <div class="form-group d-flex flex-row mx-auto mb-3 w-100">
+            <div class="d-flex flex-column col-12">
+                <label for="name">Nome <span class="text-danger">*</span></label>
+                <input id="name" name="name" class="form-control" type="text" maxlength="255" required />
+            </div>
+        </div>
+        <div class="form-group d-flex flex-row mx-auto mb-3 w-100">
+            <div class="d-flex flex-column col-12">
+                <label for="candidates">Candidatos</label>
+                <select id="candidates" name="candidates" class="form-select" size="8" aria-label="Candidatos" multiple>
+                    @foreach (var item in Model)
+                    {
+                        <option value="@item.Id">@item.Code - @item.FullName</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="d-flex flex-row w-100 mt-5">
+            <a type="button" class="btn btn-light border rounded ml-auto mr-2 col-3" href="/admin">
+                Cancelar
+            </a>
+            <button type="submit" class="btn btn-primary ml-2 mr-auto col-3">
+                Criar
+            </button>
+        </div>
+    </div>
+</form>
